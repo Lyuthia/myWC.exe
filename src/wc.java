@@ -154,7 +154,7 @@ public class wc {
         for (File f : files) {
             if (f.isFile()&&f.getName().endsWith(fileFilter)) {
                 fileList.add(f);
-                //System.out.println(f.getName());
+                System.out.println(f.getName());
             } else if (f.isDirectory()) {
                 //System.out.println(f.getAbsolutePath());
                 searchFile(arr);
@@ -170,19 +170,32 @@ public class wc {
 
     public static void main(String[] args) throws IOException
     {
+        while (true) {
+
+            // 输出面板
+            System.out.println("\n----------------------3216005168 WC程序----------------------");
+            System.out.println("|                                                           |");
+            System.out.println("|            -c [文件路径]  返回文件字符数                  |");
+            System.out.println("|            -w [文件路径]  返回文件词的数目                |");
+            System.out.println("|            -l [文件路径]  返回文件行数                    |");
+            System.out.println("|            -s [文件夹路径]  搜索文件名(须为第1位)         |");
+            System.out.println("|            -a [文件路径]  统计代码行/空行/注释行          |");
+            System.out.println("|                                                           |");
+            System.out.println("-------------------------------------------------------------");
+
+            // 获取输入指令
+            System.out.println("Please enter the command：");
+            Scanner command = new Scanner(System.in);
+            String arr[]= command.nextLine().split("\\s");
+
+            /* * 根据命令 执行操作 * */
+            int len = arr.length;
+            //-s -c -w -l -a F:\5168\myWC.exe\test .cpp
+            if(arr[0].equals("-s")) searchFile(arr);
+                //-c -w -l -a F:\5168\myWC.exe\test\wc1c.cpp
+            else operation(len,0,arr,arr[arr.length-1]);
+        }
         //System.out.println("操作：" + args[0] + " " + args[1]);
         //searchFile("F:\\test",".cpp");
-
-        // 获取输入指令
-        System.out.print("Please enter the command：");
-        Scanner command = new Scanner(System.in);
-        String arr[]= command.nextLine().split("\\s");
-
-        /* * 根据命令 执行操作 * */
-        int len = arr.length;
-        //-s -c -w -l -a F:\\test .cpp
-        if(arr[0].equals("-s")) searchFile(arr);
-        //-c -w -l -a F:\wc1c.cpp
-        else operation(len,0,arr,arr[arr.length-1]);
     }
 }
