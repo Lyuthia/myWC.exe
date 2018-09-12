@@ -5,6 +5,18 @@
  
 #### [github项目传送门：https://github.com/Lyuthia/myWC.exe.git](https://github.com/Lyuthia/myWC.exe.git "https://github.com/Lyuthia/myWC.exe.git") ####
 
+> #### 使用说明 ####
+> 1. 若使用 “-s” 命令 必须置于首位
+> 2. 其他命令，如： “-a”、“-w”、“-c”、“-l” 不做顺序要求
+> 3. 可以单独使用一个命令，也可以同时使用多个命令
+> 4. 使用 “-s” 命令时，最后两个参数分别为： [查询目录绝对路径]、[后缀]
+> 5. 没有使用 “-s” 命令时，最后一个参数为： [文件绝对路径]
+> #### 举例说明 ####
+> 1. `-s -c -w -l -a F:\5168\myWC.exe\test .cpp`
+> 2. `-s F:\5168\myWC.exe\test .cpp`
+> 3. `-c -w -l -a F:\5168\myWC.exe\test\wc1c.cpp`
+> 4. `-l -a F:\5168\myWC.exe\test\wc1c.cpp`
+
 ## 一、项目相关要求 ##
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 wc.exe 是一个常见的工具，它能统计文本文件的字符数、单词数和行数。这个项目要求写一个命令行程序，模仿已有wc.exe 的功能，并加以扩充，给出某程序设计语言源文件的字符数、单词数和行数。
@@ -38,6 +50,34 @@ wc.exe [parameter] [file_name]
 - 有何收获：了解并实现了相关功能
 
 ## 三、设计程序流程 ##
+
+#### 解题思路 ####
+
+- 主函数：`输入命令，判断是否需要通过文件夹递归查询满足条件的文件，再执行“递归查询函数”或“文件导入函数”`
+
+- 操作函数：`循环遍历命令行，依次执行指令相应的下列统计函数`
+
+- 循环递归指定目录查询满足后缀条件的文件：
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+`通过File文件流依次导入该目录下的文件及文件夹进入文件数组，当该数组不为空时循环遍历数组内容，`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+`若数组内容为文件，则调用操作函数执行相应操作，若数组内容为文件夹，则迭代调用当前递归查询函数继续查询`
+
+- 文件导入函数：`通过File文件流读取相应文件，再调用操作函数执行指令的相应函数`
+
+- 字符统计函数：
+`通过readLine函数循环读取文件的每一行内容，循环遍历每一行内容中的每一个字符，判断是否为符合标准的字符，是则字符数加1，否则继续判断下一个字符是否符合要求，直到结束`
+
+- 词数统计函数：`通过readLine函数循环读取文件的每一行内容，把每一行内容以空格切割成每个单词，再统计切割出来的单词数`
+
+- 行数统计函数：`通过readLine函数循环读取文件的每一行内容，然后行数循环加1，直到结束`
+
+- 特殊行统计函数：`通过readLine函数循环读取文件的每一行内容，判断该行是否为“空行”、“注释行”、“代码行”，是则相应变量加1，直到结束`
+
+#### 设计实现过程 ####
+![流程图](https://i.imgur.com/VXZYrpa.png)
 
 ## 四、关键代码 ##
 项目目录：
@@ -235,6 +275,7 @@ wc.exe [parameter] [file_name]
         	        fileList.add(f);
         	        System.out.println(f.getName());
         	    } else if (f.isDirectory()) {
+					arr[arr.length-2] = f.getAbsolutePath();
         	        System.out.println(f.getAbsolutePath());
         	        searchFile(arr);
         	    }
