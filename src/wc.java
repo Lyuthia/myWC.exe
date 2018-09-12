@@ -156,6 +156,7 @@ public class wc {
                 fileList.add(f);
                 System.out.println(f.getName());
             } else if (f.isDirectory()) {
+                arr[arr.length-2] = f.getAbsolutePath();
                 //System.out.println(f.getAbsolutePath());
                 searchFile(arr);
             }
